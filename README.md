@@ -76,9 +76,14 @@ The local path to which to write the path and checksum.
 * `save_path` - Defaults to `true`.
 Determines if the path information is saved along with the checksum.
 If true, a change to the target path will cause the resource to converge and signal subscribers.
+The source path is canonicalized before saving so relative, absolute, double dots, and multiple slashes do not matter.
 * `checksum_algorithm` - Default to `md5`.
 The algorithm to use.
 Supported values are `md5` and `sha1`, not case sensitive.
+* `include_metadata` - Default to `true`.
+Determines if file metadata (permissions, times) are included in the checksum.
+If false, only file content will affect checksum.
+It is typically faster to include metadata.
 
 ## Recipes
 
