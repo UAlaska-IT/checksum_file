@@ -36,6 +36,7 @@ algorithms = [
   'sha1'
 ]
 
+# Test files themselves
 paths.each do |path|
   includes.each do |include|
     algorithms.each do |algorithm|
@@ -67,6 +68,25 @@ paths.each do |path|
           it { should_not exist }
         end
       end
+    end
+  end
+end
+
+# Test directory content
+includes.each do |include|
+  algorithms.each do |algorithm|
+    base_name = "#{include[0]}_#{include[1]}_#{algorithm}"
+
+    # Check content change
+    describe file File.join(path_to_test_directory, "#{base_name}_content") do
+      it { should exist }
+      it { should be_file }
+    end
+
+    # Check metadata change
+    describe file File.join(path_to_test_directory, "#{base_name}_metadata") do
+      it { should exist }
+      it { should be_file }
     end
   end
 end
