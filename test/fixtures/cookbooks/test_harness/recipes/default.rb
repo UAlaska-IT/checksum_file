@@ -1,32 +1,24 @@
 # frozen_string_literal: true
 
-path_to_data_directory = '/tmp/checksum_file_data'
-path_to_checksum_directory = '/tmp/checksum_checksum_data'
-path_to_test_directory = '/tmp/checksum_checksum_data'
+path_to_data_directory = '/tmp/checksum_data'
+path_to_checksum_directory = '/tmp/checksum_checksum'
+path_to_test_directory = '/tmp/checksum_test'
 
-# Make test environment idempotent
-bash 'Delete data directory' do
-  code "rm -rf #{path_to_data_directory}"
-end
+directories = [
+  'data',
+  'checksum',
+  'test'
+]
 
-bash 'Delete checksum directory' do
-  code "rm -rf #{path_to_checksum_directory}"
-end
+directories.each do |dir|
+  # Make test environment idempotent
+  bash "Delete #{dir} directory" do
+    code "rm -rf /tmp/checksum_#{dir}"
+  end
 
-bash 'Delete test directory' do
-  code "rm -rf #{path_to_test_directory}"
-end
-
-directory 'Create data directory' do
-  path path_to_data_directory
-end
-
-directory 'Create checksum directory' do
-  path path_to_checksum_directory
-end
-
-directory 'Create test directory' do
-  path path_to_test_directory
+  directory "Create #{dir} directory" do
+    path "/tmp/checksum_#{dir}"
+  end
 end
 
 filenames = [
@@ -49,7 +41,7 @@ end
 # include_path, include_metadata
 includes = [
   [true, true],
-  [true, false],
+  [true, false]
 ]
 
 algorithms = [
@@ -130,7 +122,7 @@ paths.each do |path|
         checksum_algorithm algorithm
       end
 
-      file File.join(path_to_test_directory, "#{base_name}_metadata")do
+      file File.join(path_to_test_directory, "#{base_name}_metadata") do
         content 'Just a check'
         action :nothing
         subscribes :create, "checksum_file[#{base_name}_metadata]", :immediate
