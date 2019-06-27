@@ -14,7 +14,7 @@ module ChecksumFile
     end
 
     def temp_file_name(path)
-      return path.gsub!(%r{[\/\s]}, '_')
+      return path.gsub(%r{[\/\s]}, '_')
     end
 
     def temp_path(path)
