@@ -108,12 +108,12 @@ paths.each do |path|
         subscribes :create, "checksum_file[#{base_name}_content]", :immediate
       end
 
-      # Check metadata change
-      bash "#{base_name}_metadata" do
-        code "touch #{path}"
+      # Check modified time change
+      bash "#{base_name}_mtime" do
+        code "sleep 1 && touch #{path}"
       end
 
-      checksum_file "#{base_name}_metadata" do
+      checksum_file "#{base_name}_mtime" do
         source_path path
         target_path checksum_path
         include_path include[0]
@@ -121,10 +121,10 @@ paths.each do |path|
         checksum_algorithm algorithm
       end
 
-      file File.join(path_to_test_directory, "#{base_name}_metadata") do
+      file File.join(path_to_test_directory, "#{base_name}_mtime") do
         content 'Just a check'
         action :nothing
-        subscribes :create, "checksum_file[#{base_name}_metadata]", :immediate
+        subscribes :create, "checksum_file[#{base_name}_mtime]", :immediate
       end
     end
   end
@@ -202,7 +202,7 @@ includes.each do |include|
     # Check modified time change
     filenames.each do |filename|
       bash "#{base_name}_mtime" do
-        code "touch #{File.join(path_to_data_directory, filename)}"
+        code "sleep 1 && touch #{File.join(path_to_data_directory, filename)}"
       end
     end
 

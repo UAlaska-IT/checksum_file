@@ -60,7 +60,7 @@ paths.each do |path|
       end
 
       # Check metadata change
-      describe file File.join(path_to_test_directory, "#{base_name}_metadata") do
+      describe file File.join(path_to_test_directory, "#{base_name}_mtime") do
         if base_name.match?(/(true|false)_true/)
           it { should exist }
           it { should be_file }

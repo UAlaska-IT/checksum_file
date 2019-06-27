@@ -85,6 +85,7 @@ The source path is canonicalized before recording so relative, absolute, double 
 Determines if file metadata (permissions, times) are recorded along with the checksum.
 If true, changing owner, permissions or touching the source file will cause the resource to converge and signal subscribers.
 For directories, this attribute refers to the directory itself; metadata is always included for directory content.
+Due to a limitation of GNU tar, modified times are only accurate to one second for directory content.
 * `checksum_algorithm` - Default to `md5`.
 The algorithm to use.
 Supported values are `md5` and `sha1`, not case sensitive.

@@ -22,9 +22,14 @@ module ChecksumFile
     end
 
     # Allow absolute filenames, because we will never extract these
+    # v7 whiffs on content mtime
+    # ustar whiffs on content mtime
+    # oldgnu whiffs on content mtime
+    # gnu whiffs on content mtime
+    # posix format causes 100% false positives
     def generate_tar_file(path_to_file)
       tar_path = temp_path(path_to_file)
-      command = "tar --create --format=posix --preserve-permissions --absolute-names --file=#{tar_path} #{path_to_file}"
+      command = "tar --create --format=gnu --preserve-permissions --absolute-names --file=#{tar_path} #{path_to_file}"
       bash_out(command)
       return tar_path
     end
