@@ -1,4 +1,4 @@
-# Chef Run Recorder Cookbook
+# Checksum File Cookbook
 
 [![License](https://img.shields.io/github/license/ualaska-it/checksum_file.svg)](https://github.com/ualaska-it/checksum_file)
 [![GitHub Tag](https://img.shields.io/github/tag/ualaska-it/checksum_file.svg)](https://github.com/ualaska-it/checksum_file)
