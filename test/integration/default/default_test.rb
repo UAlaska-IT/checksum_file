@@ -37,9 +37,9 @@ algorithms = [
 ]
 
 # Test files themselves
-paths.each do |path|
-  includes.each do |include|
-    algorithms.each do |algorithm|
+includes.each do |include|
+  algorithms.each do |algorithm|
+    paths.each do |path|
       base_name = "#{File.basename(path)}_#{include[0]}_#{include[1]}_#{algorithm}"
 
       # Check first creation
@@ -61,7 +61,7 @@ paths.each do |path|
 
       # Check metadata change
       describe file File.join(path_to_test_directory, "#{base_name}_mtime") do
-        if base_name.match?(/(true|false)_true/)
+        if base_name.match?(/(((true|false)_true)|checksum_data)/)
           it { should exist }
           it { should be_file }
         else

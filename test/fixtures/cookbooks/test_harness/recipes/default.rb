@@ -50,9 +50,9 @@ algorithms = [
 ]
 
 # Test files themselves
-paths.each do |path|
-  includes.each do |include|
-    algorithms.each do |algorithm|
+includes.each do |include|
+  algorithms.each do |algorithm|
+    paths.each do |path| # Path as innermost loop and directory first avoids false positives for directory tests
       base_name = "#{File.basename(path)}_#{include[0]}_#{include[1]}_#{algorithm}"
       checksum_path = File.join(path_to_checksum_directory, base_name)
 

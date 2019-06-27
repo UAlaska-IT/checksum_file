@@ -82,9 +82,9 @@ Determines if the path information is recorded along with the checksum.
 If true, a change to the source path (moving the source file) will cause the resource to converge and signal subscribers.
 The source path is canonicalized before recording so relative, absolute, double dots, and multiple slashes do not matter.
 * `include_metadata` - Default to `true`.
-Determines if file metadata (permissions, times) are recorded along with the checksum.
+For regular files, determines if metadata (permissions, times) are recorded along with the checksum.
 If true, changing owner, permissions or touching the source file will cause the resource to converge and signal subscribers.
-For directories, this attribute refers to the directory itself; metadata is always included for directory content.
+For directories, metadata is always included for the directory itself and its content.
 Due to a limitation of GNU tar, modified times are only accurate to one second for directory content.
 * `checksum_algorithm` - Default to `md5`.
 The algorithm to use.
