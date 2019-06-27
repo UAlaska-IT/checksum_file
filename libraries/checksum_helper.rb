@@ -18,7 +18,7 @@ module ChecksumFile
     end
 
     def temp_path(path)
-      return File.join('/tmp', temp_file_name(path), '.tar')
+      return File.join('/tmp', "#{temp_file_name(path)}.tar")
     end
 
     def generate_tar_file(path_to_file)
