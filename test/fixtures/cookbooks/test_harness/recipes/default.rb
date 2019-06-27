@@ -136,6 +136,36 @@ includes.each do |include|
     base_name = "#{include[0]}_#{include[1]}_#{algorithm}"
     checksum_path = File.join(path_to_checksum_directory, base_name)
 
+    # Check first creation
+    checksum_file "#{base_name}_create" do
+      source_path path_to_data_directory
+      target_path checksum_path
+      include_path include[0]
+      include_metadata include[1]
+      checksum_algorithm algorithm
+    end
+
+    file File.join(path_to_test_directory, "#{base_name}_create") do
+      content 'Just a check'
+      action :nothing
+      subscribes :create, "checksum_file[#{base_name}_create]", :immediate
+    end
+
+    # Check no change
+    checksum_file "#{base_name}_none" do
+      source_path path_to_data_directory
+      target_path checksum_path
+      include_path include[0]
+      include_metadata include[1]
+      checksum_algorithm algorithm
+    end
+
+    file File.join(path_to_test_directory, "#{base_name}_none") do
+      content 'Just a check'
+      action :nothing
+      subscribes :create, "checksum_file[#{base_name}_none]", :immediate
+    end
+
     # Check content change
     filenames.each do |filename|
       file "#{base_name}_#{filename}" do
@@ -200,7 +230,7 @@ includes.each do |include|
       subscribes :create, "checksum_file[#{base_name}_mode]", :immediate
     end
 
-    # Check permissions change
+    # Check group change
     filenames.each do |filename|
       bash "#{base_name}_group" do
         code "chgrp ssh #{File.join(path_to_data_directory, filename)}"

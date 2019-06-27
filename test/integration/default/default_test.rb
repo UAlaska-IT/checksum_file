@@ -77,6 +77,17 @@ includes.each do |include|
   algorithms.each do |algorithm|
     base_name = "#{include[0]}_#{include[1]}_#{algorithm}"
 
+    # Check first creation
+    describe file File.join(path_to_test_directory, "#{base_name}_create") do
+      it { should exist }
+      it { should be_file }
+    end
+
+    # Check no change
+    describe file File.join(path_to_test_directory, "#{base_name}_none") do
+      it { should_not exist }
+    end
+
     # Check content change
     describe file File.join(path_to_test_directory, "#{base_name}_content") do
       it { should exist }
