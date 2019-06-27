@@ -108,10 +108,8 @@ paths.each do |path|
       end
 
       # Check metadata change
-      filenames.each do |filename|
-        bash "#{base_name}_metadata" do
-          code "touch #{File.join(path_to_data_directory, filename)}"
-        end
+      bash "#{base_name}_metadata" do
+        code "touch #{path}"
       end
 
       checksum_file "#{base_name}_metadata" do
