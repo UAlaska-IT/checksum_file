@@ -21,9 +21,10 @@ module ChecksumFile
       return File.join('/tmp', "#{temp_file_name(path)}.tar")
     end
 
+    # Allow absolute filenames, because we will never extract these
     def generate_tar_file(path_to_file)
       tar_path = temp_path(path_to_file)
-      command = "tar cfpP #{tar_path} #{path_to_file}"
+      command = "tar --create --format=posix --preserve-permissions --absolute-names --file=#{tar_path} #{path_to_file}"
       bash_out(command)
       return tar_path
     end

@@ -158,7 +158,7 @@ includes.each do |include|
       subscribes :create, "checksum_file[#{base_name}_content]", :immediate
     end
 
-    # Check metadata change
+    # Check modified time change
     filenames.each do |filename|
       bash "#{base_name}_metadata" do
         code "touch #{File.join(path_to_data_directory, filename)}"
