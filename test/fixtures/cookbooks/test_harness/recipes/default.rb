@@ -136,6 +136,17 @@ includes.each do |include|
     base_name = "#{include[0]}_#{include[1]}_#{algorithm}"
     checksum_path = File.join(path_to_checksum_directory, base_name)
 
+    filenames.each do |filename|
+      path = File.join(path_to_data_directory, filename)
+      bash "Delete #{base_name} #{filename}" do
+        code "rm #{path}"
+      end
+      file "#{base_name} #{filename}" do
+        path path
+        content filename
+      end
+    end
+
     # Check first creation
     checksum_file "#{base_name}_create" do
       source_path path_to_data_directory
