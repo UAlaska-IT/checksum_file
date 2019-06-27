@@ -23,7 +23,7 @@ module ChecksumFile
 
     def generate_tar_file(path_to_file)
       tar_path = temp_path(path_to_file)
-      command = "tar cfp #{tar_path} #{path_to_file}"
+      command = "tar cfpP #{tar_path} #{path_to_file}"
       bash_out(command)
       return tar_path
     end
