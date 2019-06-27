@@ -7,9 +7,12 @@ default_action :save
 
 property :source_path, String, required: true
 property :target_path, String, name_property: true
-property :save_path, [true, false], default: true
-property :checksum_algorithm, String, default: 'md5'
+property :owner, String, default: 'root'
+property :group, String, default: 'root'
+property :mode, [Integer, String], default: 0o644
+property :include_path, [true, false], default: true
 property :include_metadata, [true, false], default: true
+property :checksum_algorithm, ['md5', 'sha1'], default: 'md5'
 
 action :save do
   save_checksum_file(@new_resource)

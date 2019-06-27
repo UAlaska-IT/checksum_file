@@ -73,17 +73,23 @@ This resource has five attributes.
 The local path to the file (regular file or directory) for which the checksum is to be calculated.
 * `target_path` - Defaults to the name of the resource if not set explicitly.
 The local path to which to write the path and checksum.
-* `save_path` - Defaults to `true`.
-Determines if the path information is saved along with the checksum.
-If true, a change to the target path will cause the resource to converge and signal subscribers.
-The source path is canonicalized before saving so relative, absolute, double dots, and multiple slashes do not matter.
+* `owner` - Defaults to `root`.
+The owner of the target file.
+* `group` - Defaults to `root`.
+The group of the target file.
+* `mode` - Defaults to `0o755`.
+The permissions of the target file.
+* `include_path` - Defaults to `true`.
+Determines if the path information is recorded along with the checksum.
+If true, a change to the source path (moving the source file) will cause the resource to converge and signal subscribers.
+The source path is canonicalized before recording so relative, absolute, double dots, and multiple slashes do not matter.
+* `include_metadata` - Default to `true`.
+Determines if file metadata (permissions, times) are recorded along with the checksum.
+If true, changing owner, permissions or touching the source file will cause the resource to converge and signal subscribers.
+For directories, this attribute refers to the directory itself; metadata is always included for directory content.
 * `checksum_algorithm` - Default to `md5`.
 The algorithm to use.
 Supported values are `md5` and `sha1`, not case sensitive.
-* `include_metadata` - Default to `true`.
-Determines if file metadata (permissions, times) are included in the checksum.
-If false, only file content will affect checksum.
-It is typically faster to include metadata.
 
 ## Recipes
 
