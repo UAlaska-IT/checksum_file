@@ -43,7 +43,7 @@ module ChecksumFile
 
     def separate_checksum_from_path(checksum_and_path)
       splits = checksum_and_path.split(' /tmp/')
-      return splits[0].trim
+      return splits[0].strip
     end
 
     def generate_checksum_record(source_path, checksum_algorithm)
