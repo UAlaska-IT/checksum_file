@@ -160,12 +160,12 @@ includes.each do |include|
 
     # Check modified time change
     filenames.each do |filename|
-      bash "#{base_name}_metadata" do
+      bash "#{base_name}_mtime" do
         code "touch #{File.join(path_to_data_directory, filename)}"
       end
     end
 
-    checksum_file "#{base_name}_metadata" do
+    checksum_file "#{base_name}_mtime" do
       source_path path_to_data_directory
       target_path checksum_path
       include_path include[0]
@@ -173,10 +173,52 @@ includes.each do |include|
       checksum_algorithm algorithm
     end
 
-    file File.join(path_to_test_directory, "#{base_name}_metadata") do
+    file File.join(path_to_test_directory, "#{base_name}_mtime") do
       content 'Just a check'
       action :nothing
-      subscribes :create, "checksum_file[#{base_name}_metadata]", :immediate
+      subscribes :create, "checksum_file[#{base_name}_mtime]", :immediate
+    end
+
+    # Check permissions change
+    filenames.each do |filename|
+      bash "#{base_name}_mode" do
+        code "chmod 701 #{File.join(path_to_data_directory, filename)}"
+      end
+    end
+
+    checksum_file "#{base_name}_mode" do
+      source_path path_to_data_directory
+      target_path checksum_path
+      include_path include[0]
+      include_metadata include[1]
+      checksum_algorithm algorithm
+    end
+
+    file File.join(path_to_test_directory, "#{base_name}_mode") do
+      content 'Just a check'
+      action :nothing
+      subscribes :create, "checksum_file[#{base_name}_mode]", :immediate
+    end
+
+    # Check permissions change
+    filenames.each do |filename|
+      bash "#{base_name}_group" do
+        code "chgrp ssh #{File.join(path_to_data_directory, filename)}"
+      end
+    end
+
+    checksum_file "#{base_name}_group" do
+      source_path path_to_data_directory
+      target_path checksum_path
+      include_path include[0]
+      include_metadata include[1]
+      checksum_algorithm algorithm
+    end
+
+    file File.join(path_to_test_directory, "#{base_name}_group") do
+      content 'Just a check'
+      action :nothing
+      subscribes :create, "checksum_file[#{base_name}_group]", :immediate
     end
   end
 end

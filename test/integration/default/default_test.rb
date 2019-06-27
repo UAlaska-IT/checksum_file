@@ -83,8 +83,20 @@ includes.each do |include|
       it { should be_file }
     end
 
-    # Check metadata change
-    describe file File.join(path_to_test_directory, "#{base_name}_metadata") do
+    # Check modified time change
+    describe file File.join(path_to_test_directory, "#{base_name}_mtime") do
+      it { should exist }
+      it { should be_file }
+    end
+
+    # Check permissions change
+    describe file File.join(path_to_test_directory, "#{base_name}_mode") do
+      it { should exist }
+      it { should be_file }
+    end
+
+    # Check permissions change
+    describe file File.join(path_to_test_directory, "#{base_name}_group") do
       it { should exist }
       it { should be_file }
     end
