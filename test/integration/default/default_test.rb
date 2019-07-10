@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# frozen_string_literal: true
-
 path_to_data_directory = '/tmp/checksum_data'
 path_to_test_directory = '/tmp/checksum_test'
 

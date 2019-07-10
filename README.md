@@ -99,6 +99,22 @@ This cookbook provides no recipes.
 Custom resources can be used as below.
 
 ```ruby
+checksum_file 'Source Checksum' do
+  source_path path_to_source_directory
+  target_path '/var/chef/cache/source-checksum'
+end
+
+# Make sure the build triggers iff the sources change
+file path_to_bin_file do
+  action :nothing
+  subscribes :delete, 'checksum_file[Source Checksum]', :immediate
+end
+
+bash 'Compile and Install' do
+  code 'make && make install'
+  cwd path_to_source_directory
+  creates path_to_bin_file
+end
 ```
 
 ## Development
