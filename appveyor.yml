@@ -8,8 +8,10 @@ install:
     wget "${chef_url}" -O "${chef_file}"
     sudo dpkg -i "${chef_file}"
 
+build: off
+
 test_script:
-  - rubocop
+  - /opt/chef-workstation/embedded/bin/rubocop
   - foodcritic .
   - foodcritic test/fixtures/cookbooks/test_harness
   - berks install
