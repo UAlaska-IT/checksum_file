@@ -1,0 +1,29 @@
+image:  Ubuntu1804
+
+install:
+  - >
+    chef_version='0.7.4'
+    chef_url="https://packages.chef.io/files/stable/chef-workstation/${chef_version}/ubuntu/18.04/chef-workstation_${chef_version}-1_amd64.deb"
+    chef_file='chef.deb'
+    wget "${chef_url}" -O "${chef_file}"
+    sudo dpkg -i "${chef_file}"
+
+test_script:
+  - rubocop
+  - foodcritic .
+  - foodcritic test/fixtures/cookbooks/test_harness
+  - berks install
+  - chef exec rspec --fail-fast -fd
+  - KITCHEN_YAML=".kitchen.appveyor.yml" kitchen test --no-color --destroy=always
+
+for:
+  - branches:
+      only:
+        - master
+    deploy_script:
+      # TODO: Push to supermarket
+
+notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: xHIB3Yb/Y+TjFjmiu+KSKKsj0Ny/QpOqrq6ZA31GIOD6+Q3vWbyFk/KQ6VgvlwGb6qZUTcPQafEbo0ue52kt3EHBvwHbtHO8klqfJTtVoQM=
