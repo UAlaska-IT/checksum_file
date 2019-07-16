@@ -49,6 +49,13 @@ algorithms = [
   'sha1'
 ]
 
+other_group =
+  if node['platform_family'] == 'debian'
+    'ssh'
+  else
+    'sshd'
+  end
+
 # Test files themselves
 includes.each do |include|
   algorithms.each do |algorithm|
@@ -244,7 +251,7 @@ includes.each do |include|
     # Check group change
     filenames.each do |filename|
       bash "#{base_name}_group" do
-        code "chgrp ssh #{File.join(path_to_data_directory, filename)}"
+        code "chgrp #{other_group} #{File.join(path_to_data_directory, filename)}"
       end
     end
 
