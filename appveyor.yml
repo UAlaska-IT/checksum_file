@@ -13,6 +13,7 @@ install:
     vagrant_file='vagrant.deb'
     wget "${vagrant_url}" -O "${vagrant_file}"
     sudo dpkg -i "${vagrant_file}"
+  - CHEF_LICENSE="accept" chef exec bundle install
 
 build: off
 
@@ -22,4 +23,4 @@ test_script:
   - foodcritic test/fixtures/cookbooks/test_harness
   - berks install
   - chef exec rspec --fail-fast -fd
-  - KITCHEN_YAML=".kitchen.appveyor.yml" kitchen test --no-color --destroy=always
+  - KITCHEN_YAML="kitchen.appveyor.yml" kitchen test --no-color --destroy=always
