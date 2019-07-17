@@ -7,6 +7,12 @@ install:
     chef_file='chef.deb'
     wget "${chef_url}" -O "${chef_file}"
     sudo dpkg -i "${chef_file}"
+  - |
+    vagrant_version='2.2.5'
+    vagrant_url="https://releases.hashicorp.com/vagrant/${vagrant_version}/vagrant_${vagrant_version}_x86_64.deb"
+    vagrant_file='vagrant.deb'
+    wget "${vagrant_url}" -O "${vagrant_file}"
+    sudo dpkg -i "${vagrant_file}"
 
 build: off
 
