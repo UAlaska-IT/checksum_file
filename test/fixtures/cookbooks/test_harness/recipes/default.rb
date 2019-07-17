@@ -135,11 +135,23 @@ includes.each do |include|
       end
 
       # Check permissions change
-      bash "#{base_name}_mode" do
-        code "chmod 701 #{path}"
+      bash "#{base_name}_mode1" do
+        code "chmod 755 #{path}"
       end
 
-      checksum_file "#{base_name}_mode" do
+      checksum_file "#{base_name}_mode1" do
+        source_path path
+        target_path checksum_path
+        include_path include[0]
+        include_metadata include[1]
+        checksum_algorithm algorithm
+      end
+
+      bash "#{base_name}_mode2" do
+        code "chmod 751 #{path}"
+      end
+
+      checksum_file "#{base_name}_mode2" do
         source_path path
         target_path checksum_path
         include_path include[0]
@@ -150,15 +162,27 @@ includes.each do |include|
       file File.join(path_to_test_directory, "#{base_name}_mode") do
         content 'Just a check'
         action :nothing
-        subscribes :create, "checksum_file[#{base_name}_mode]", :immediate
+        subscribes :create, "checksum_file[#{base_name}_mode2]", :immediate
       end
 
       # Check group change
-      bash "#{base_name}_group" do
+      bash "#{base_name}_group1" do
+        code "chgrp root #{path}"
+      end
+
+      checksum_file "#{base_name}_group1" do
+        source_path path
+        target_path checksum_path
+        include_path include[0]
+        include_metadata include[1]
+        checksum_algorithm algorithm
+      end
+
+      bash "#{base_name}_group2" do
         code "chgrp #{other_group} #{path}"
       end
 
-      checksum_file "#{base_name}_group" do
+      checksum_file "#{base_name}_group2" do
         source_path path
         target_path checksum_path
         include_path include[0]
@@ -169,7 +193,7 @@ includes.each do |include|
       file File.join(path_to_test_directory, "#{base_name}_group") do
         content 'Just a check'
         action :nothing
-        subscribes :create, "checksum_file[#{base_name}_group]", :immediate
+        subscribes :create, "checksum_file[#{base_name}_group2]", :immediate
       end
     end
   end
