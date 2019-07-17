@@ -76,7 +76,7 @@ The local path to which to write the path and checksum.
 The owner of the target file.
 * `group` - Defaults to `root`.
 The group of the target file.
-* `mode` - Defaults to `0o755`.
+* `mode` - Defaults to `0o644`.
 The permissions of the target file.
 * `include_path` - Defaults to `true`.
 Determines if the path information is recorded along with the checksum.
