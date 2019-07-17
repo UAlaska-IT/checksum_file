@@ -34,6 +34,8 @@ algorithms = [
   'sha1'
 ]
 
+include_meta_regex = /(((true|false)_true)|checksum_data)/
+
 # Test files themselves
 includes.each do |include|
   algorithms.each do |algorithm|
@@ -57,9 +59,29 @@ includes.each do |include|
         it { should be_file }
       end
 
-      # Check metadata change
+      # Check modified time change
       describe file File.join(path_to_test_directory, "#{base_name}_mtime") do
-        if base_name.match?(/(((true|false)_true)|checksum_data)/)
+        if base_name.match?(include_meta_regex)
+          it { should exist }
+          it { should be_file }
+        else
+          it { should_not exist }
+        end
+      end
+
+      # Check permissions change
+      describe file File.join(path_to_test_directory, "#{base_name}_mode") do
+        if base_name.match?(include_meta_regex)
+          it { should exist }
+          it { should be_file }
+        else
+          it { should_not exist }
+        end
+      end
+
+      # Check group change
+      describe file File.join(path_to_test_directory, "#{base_name}_group") do
+        if base_name.match?(include_meta_regex)
           it { should exist }
           it { should be_file }
         else
@@ -104,7 +126,7 @@ includes.each do |include|
       it { should be_file }
     end
 
-    # Check permissions change
+    # Check group change
     describe file File.join(path_to_test_directory, "#{base_name}_group") do
       it { should exist }
       it { should be_file }

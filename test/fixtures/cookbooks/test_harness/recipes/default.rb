@@ -133,6 +133,44 @@ includes.each do |include|
         action :nothing
         subscribes :create, "checksum_file[#{base_name}_mtime]", :immediate
       end
+
+      # Check permissions change
+      bash "#{base_name}_mode" do
+        code "chmod 701 #{path}"
+      end
+
+      checksum_file "#{base_name}_mode" do
+        source_path path
+        target_path checksum_path
+        include_path include[0]
+        include_metadata include[1]
+        checksum_algorithm algorithm
+      end
+
+      file File.join(path_to_test_directory, "#{base_name}_mode") do
+        content 'Just a check'
+        action :nothing
+        subscribes :create, "checksum_file[#{base_name}_mode]", :immediate
+      end
+
+      # Check group change
+      bash "#{base_name}_group" do
+        code "chgrp #{other_group} #{path}"
+      end
+
+      checksum_file "#{base_name}_group" do
+        source_path path
+        target_path checksum_path
+        include_path include[0]
+        include_metadata include[1]
+        checksum_algorithm algorithm
+      end
+
+      file File.join(path_to_test_directory, "#{base_name}_group") do
+        content 'Just a check'
+        action :nothing
+        subscribes :create, "checksum_file[#{base_name}_group]", :immediate
+      end
     end
   end
 end
