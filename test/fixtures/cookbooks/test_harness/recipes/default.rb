@@ -175,6 +175,10 @@ includes.each do |include|
   end
 end
 
+user 'bud' do
+  shell '/bin/bash'
+end
+
 # Test directory content
 includes.each do |include|
   algorithms.each do |algorithm|
@@ -199,6 +203,9 @@ includes.each do |include|
       include_path include[0]
       include_metadata include[1]
       checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
     end
 
     file File.join(path_to_test_directory, "#{base_name}_create") do
@@ -214,6 +221,9 @@ includes.each do |include|
       include_path include[0]
       include_metadata include[1]
       checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
     end
 
     file File.join(path_to_test_directory, "#{base_name}_none") do
@@ -236,6 +246,9 @@ includes.each do |include|
       include_path include[0]
       include_metadata include[1]
       checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
     end
 
     file File.join(path_to_test_directory, "#{base_name}_content") do
@@ -257,6 +270,9 @@ includes.each do |include|
       include_path include[0]
       include_metadata include[1]
       checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
     end
 
     file File.join(path_to_test_directory, "#{base_name}_mtime") do
@@ -278,6 +294,9 @@ includes.each do |include|
       include_path include[0]
       include_metadata include[1]
       checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
     end
 
     file File.join(path_to_test_directory, "#{base_name}_mode") do
@@ -299,6 +318,9 @@ includes.each do |include|
       include_path include[0]
       include_metadata include[1]
       checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
     end
 
     file File.join(path_to_test_directory, "#{base_name}_group") do

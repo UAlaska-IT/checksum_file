@@ -34,7 +34,7 @@ algorithms = [
   'sha1'
 ]
 
-include_meta_regex = /(((true|false)_true)|checksum_data)/
+include_meta_regex = /(?:(?:(?:true|false)_true)|checksum_data)/
 
 # Test files themselves
 includes.each do |include|
@@ -46,6 +46,9 @@ includes.each do |include|
       describe file File.join(path_to_test_directory, "#{base_name}_create") do
         it { should exist }
         it { should be_file }
+        it { should be_mode 0o664 }
+        it { should be_owned_by 'root' }
+        it { should be_grouped_into 'root' }
       end
 
       # Check no change
@@ -57,6 +60,9 @@ includes.each do |include|
       describe file File.join(path_to_test_directory, "#{base_name}_content") do
         it { should exist }
         it { should be_file }
+        it { should be_mode 0o664 }
+        it { should be_owned_by 'root' }
+        it { should be_grouped_into 'root' }
       end
 
       # Check modified time change
@@ -64,6 +70,9 @@ includes.each do |include|
         if base_name.match?(include_meta_regex)
           it { should exist }
           it { should be_file }
+          it { should be_mode 0o664 }
+          it { should be_owned_by 'root' }
+          it { should be_grouped_into 'root' }
         else
           it { should_not exist }
         end
@@ -74,6 +83,9 @@ includes.each do |include|
         if base_name.match?(include_meta_regex)
           it { should exist }
           it { should be_file }
+          it { should be_mode 0o664 }
+          it { should be_owned_by 'root' }
+          it { should be_grouped_into 'root' }
         else
           it { should_not exist }
         end
@@ -84,12 +96,23 @@ includes.each do |include|
         if base_name.match?(include_meta_regex)
           it { should exist }
           it { should be_file }
+          it { should be_mode 0o664 }
+          it { should be_owned_by 'root' }
+          it { should be_grouped_into 'root' }
         else
           it { should_not exist }
         end
       end
     end
   end
+end
+
+describe user('bud') do
+  it { should exist }
+  its('group') { should eq 'bud' }
+  its('groups') { should eq ['bud'] }
+  its('home') { should eq '/home/bud' }
+  its('shell') { should eq '/bin/bash' }
 end
 
 # Test directory content
@@ -101,6 +124,9 @@ includes.each do |include|
     describe file File.join(path_to_test_directory, "#{base_name}_create") do
       it { should exist }
       it { should be_file }
+      it { should be_mode 0o701 }
+      it { should be_owned_by 'bud' }
+      it { should be_grouped_into 'bud' }
     end
 
     # Check no change
@@ -112,24 +138,36 @@ includes.each do |include|
     describe file File.join(path_to_test_directory, "#{base_name}_content") do
       it { should exist }
       it { should be_file }
+      it { should be_mode 0o701 }
+      it { should be_owned_by 'bud' }
+      it { should be_grouped_into 'bud' }
     end
 
     # Check modified time change
     describe file File.join(path_to_test_directory, "#{base_name}_mtime") do
       it { should exist }
       it { should be_file }
+      it { should be_mode 0o701 }
+      it { should be_owned_by 'bud' }
+      it { should be_grouped_into 'bud' }
     end
 
     # Check permissions change
     describe file File.join(path_to_test_directory, "#{base_name}_mode") do
       it { should exist }
       it { should be_file }
+      it { should be_mode 0o701 }
+      it { should be_owned_by 'bud' }
+      it { should be_grouped_into 'bud' }
     end
 
     # Check group change
     describe file File.join(path_to_test_directory, "#{base_name}_group") do
       it { should exist }
       it { should be_file }
+      it { should be_mode 0o701 }
+      it { should be_owned_by 'bud' }
+      it { should be_grouped_into 'bud' }
     end
   end
 end
