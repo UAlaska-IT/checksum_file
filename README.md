@@ -8,12 +8,13 @@ __Maintainer: OIT Systems Engineering__ (<ua-oit-se@alaska.edu>)
 
 ## Purpose
 
-This simple cookbook provides one resource that calculates a checksum, then writes it to a file.
-The resource will signal convergence only if the content of the file changes.
+This cookbook provides a single resource that calculates the checksum of a source file, then writes that checksum and other file data to a target file.
+The resource will signal convergence only if the content of the target file changes.
 
 The most common use of the checksum_file resource is to implement idempotence in a more robust fashion than looking at a single file.
 One caveat is that this resource takes longer than checking for the creation of a single file, so may be prohibitive for very large directories.
-However, the resource performs at most a tar and an md5sum on the target, and has been used for source trees of popular open-source projects without significant overhead compared to an entire Chef run.
+However, the resource typically performs a tar and an md5sum on a target directory, and has been used for source trees of popular open-source projects without significant overhead compared to that of an entire Chef run.
+This method is far faster than recursively checking content or even metadata of directory content.
 
 ## Requirements
 
@@ -43,7 +44,7 @@ Platforms validated via Test Kitchen:
 
 Notes:
 
-* This cookbook should support any recent Windows or Linux variant.
+* This cookbook should support any recent Linux variant.
 
 ### Dependencies
 
@@ -52,7 +53,7 @@ It should ultimately be used within a wrapper cookbook.
 
 ## Resources
 
-This cookbook provides one resource for saving checksum.
+This cookbook provides one resource for saving a checksum.
 
 ### checksum_file
 
@@ -62,16 +63,16 @@ __Actions__
 
 One action is provided.
 
-* `:save` - Post condition is that the checksum and path of the source file is written to the target file.
+* `:save` - Post condition is that the checksum, and possibly the path and metadata of the source file, are written to the target file.
 
 __Attributes__
 
 This resource has five attributes.
 
 * `source_path` - Required.
-The local path to the file (regular file or directory) for which the checksum is to be calculated.
+The local path to the source file (regular file or directory) for which the checksum is to be calculated.
 * `target_path` - Defaults to the name of the resource if not set explicitly.
-The local path to which to write the path and checksum.
+The local path to which to write the checksum and file information.
 * `owner` - Defaults to `root`.
 The owner of the target file.
 * `group` - Defaults to `root`.
@@ -79,15 +80,15 @@ The group of the target file.
 * `mode` - Defaults to `0o644`.
 The permissions of the target file.
 * `include_path` - Defaults to `true`.
-Determines if the path information is recorded along with the checksum.
+Determines if path information is recorded along with the checksum.
 If true, a change to the source path (moving the source file) will cause the resource to converge and signal subscribers.
 The source path is canonicalized before recording so relative, absolute, double dots, and multiple slashes do not matter.
-* `include_metadata` - Default to `true`.
-For regular files, determines if metadata (permissions, times) are recorded along with the checksum.
-If true, changing owner, permissions or touching the source file will cause the resource to converge and signal subscribers.
+* `include_metadata` - Defaults to `true`.
+For regular files, determines if metadata is recorded along with the checksum.
+If true, changing owner, group, mode, or touching the source file will cause the resource to converge and signal subscribers.
 For directories, metadata is always included for the directory itself and its content.
-Due to a limitation of GNU tar, modified times are only accurate to one second for directory content.
-* `checksum_algorithm` - Default to `md5`.
+Due to a limitation of GNU tar, modification times are only accurate to one second for directory content.
+* `checksum_algorithm` - Defaults to `md5`.
 The algorithm to use.
 Supported values are `md5` and `sha1`, not case sensitive.
 
