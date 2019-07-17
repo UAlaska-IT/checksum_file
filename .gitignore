@@ -34,5 +34,8 @@ Berksfile.lock
 .zero-knife.rb
 Policyfile.lock.json
 
+# CodeCov
+coverage/*
+
 # JetBrains
 .idea/*

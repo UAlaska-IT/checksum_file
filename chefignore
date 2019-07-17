@@ -111,5 +111,8 @@ Strainerfile
 .vagrant
 Vagrantfile
 
+# CodeCov
+coverage/*
+
 # JetBrains
 .idea
