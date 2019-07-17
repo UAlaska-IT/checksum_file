@@ -11,7 +11,7 @@ install:
 build: off
 
 test_script:
-  - chef exec rubocop
+  - CHEF_LICENSE="accept" chef exec rubocop
   - foodcritic .
   - foodcritic test/fixtures/cookbooks/test_harness
   - berks install
