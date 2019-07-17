@@ -11,6 +11,7 @@ install:
 build: off
 
 test_script:
+  - ls -alF /opt/chef-workstation/embedded/bin
   - /opt/chef-workstation/embedded/bin/rubocop
   - foodcritic .
   - foodcritic test/fixtures/cookbooks/test_harness
