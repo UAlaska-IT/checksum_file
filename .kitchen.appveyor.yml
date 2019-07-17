@@ -1,15 +1,6 @@
 ---
 driver:
-  name: ec2
-  region: us-west-1
-  instance_type: t2.micro
-  tags:
-    Name: Checksum File
-    Service: Infrastructure
-    Environment: Test
-    Fund: 103010
-    Org: 60412
-    Department: Systems Engineering
+  name: vagrant
 
 provisioner:
   name: chef_zero
