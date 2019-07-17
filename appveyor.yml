@@ -2,7 +2,7 @@ image:  Ubuntu1804
 
 install:
   - |
-    chef_version='0.7.4'
+    chef_version='0.3.2'
     chef_url="https://packages.chef.io/files/stable/chef-workstation/${chef_version}/ubuntu/18.04/chef-workstation_${chef_version}-1_amd64.deb"
     chef_file='chef.deb'
     wget "${chef_url}" -O "${chef_file}"
@@ -11,7 +11,7 @@ install:
 build: off
 
 test_script:
-  - chef exec rubocop
+  - rubocop
   - foodcritic .
   - foodcritic test/fixtures/cookbooks/test_harness
   - berks install
