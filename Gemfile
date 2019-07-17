@@ -2,4 +2,4 @@
 
 source 'https://rubygems.org'
 
-gem 'codecov', require: false, group: test
+gem 'codecov', require: false, group: :test
