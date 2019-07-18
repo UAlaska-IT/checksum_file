@@ -3,8 +3,10 @@
 require 'simplecov'
 SimpleCov.start
 
-require 'codecov'
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
+if ENV['CI'] == 'true'
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
 
 path_to_data_directory = '/tmp/checksum_data'
 path_to_checksum_directory = '/tmp/checksum_checksum'
