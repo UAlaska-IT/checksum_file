@@ -27,8 +27,8 @@ test_script:
 
 on_success:
   # Codecov looks for uppercase 'True' but on Ubuntu the flags are lowercase 'true'
-  - ll
-  - ll coverage
+  - ls -alF
+  - ls -alF coverage
   - |
     function upload_report(){
       CI=True
