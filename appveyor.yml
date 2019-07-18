@@ -28,6 +28,9 @@ test_script:
 on_success:
   # Codecov looks for uppercase 'True' but on Ubuntu the flags are lowercase 'true'
   - |
-    CI=True
-    APPVEYOR=True
-    bash <(curl -s https://codecov.io/bash) -t 8f7a39ee-ba80-4f9e-8e1a-730f832607ca
+    function upload_report(){
+      CI=True
+      APPVEYOR=True
+      bash <(curl -s https://codecov.io/bash) -t 8f7a39ee-ba80-4f9e-8e1a-730f832607ca
+    }
+    upload_report
