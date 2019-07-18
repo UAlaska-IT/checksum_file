@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-require 'simplecov'
-SimpleCov.start
-
-if ENV['CI'] == 'true'
-  require 'codecov'
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
-end
-
 path_to_data_directory = '/tmp/checksum_data'
 path_to_checksum_directory = '/tmp/checksum_checksum'
 path_to_test_directory = '/tmp/checksum_test'

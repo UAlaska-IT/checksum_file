@@ -3,7 +3,6 @@
 [![License](https://img.shields.io/github/license/ualaska-it/checksum_file.svg)](https://github.com/ualaska-it/checksum_file)
 [![GitHub Tag](https://img.shields.io/github/tag/ualaska-it/checksum_file.svg)](https://github.com/ualaska-it/checksum_file)
 [![Build status](https://ci.appveyor.com/api/projects/status/hqu2xohgdgi1b0wx/branch/master?svg=true)](https://ci.appveyor.com/project/UAlaska/checksum-file/branch/master)
-[![codecov](https://codecov.io/gh/UAlaska-IT/chef_run_recorder/branch/master/graph/badge.svg)](https://codecov.io/gh/UAlaska-IT/chef_run_recorder)
 
 __Maintainer: OIT Systems Engineering__ (<ua-oit-se@alaska.edu>)
 

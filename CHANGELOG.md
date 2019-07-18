@@ -2,7 +2,7 @@
 
 ## 1.0.2
 
-* Fixed Codecov upload
+* Eliminated Codecov integration
 
 ## 1.0.1
 
