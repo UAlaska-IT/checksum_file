@@ -24,3 +24,6 @@ test_script:
   - berks install
   - chef exec rspec --fail-fast -fd
   - KITCHEN_YAML="kitchen.appveyor.yml" kitchen test --no-color --destroy=always
+
+on_success:
+  - bash <(curl -s https://codecov.io/bash) -t 8f7a39ee-ba80-4f9e-8e1a-730f832607ca
