@@ -55,6 +55,30 @@ module ChecksumTest
         end
       return group
     end
+
+    def create_directory
+      bash 'reset' do
+        code "rm -rf #{path_to_data_directory}"
+      end
+      directory path_to_data_directory
+      filenames.each do |filename|
+        path = File.join(path_to_data_directory, filename)
+        file path do
+          content filename
+        end
+      end
+    end
+
+    def reset_directory(source_path, target_path, include, algorithm)
+      create_directory
+      checksum_file 'reset' do
+        source_path source_path
+        target_path target_path
+        include_path include[0]
+        include_metadata include[1]
+        checksum_algorithm algorithm
+      end
+    end
   end
 end
 
