@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-path_to_data_directory = '/tmp/checksum_data'
-path_to_checksum_directory = '/tmp/checksum_checksum'
-path_to_test_directory = '/tmp/checksum_test'
-
-directories = [
-  'data',
-  'checksum',
-  'test'
-]
-
 directories.each do |dir|
   # Make test environment idempotent
   bash "Delete #{dir} directory" do
@@ -20,11 +10,6 @@ directories.each do |dir|
     path "/tmp/checksum_#{dir}"
   end
 end
-
-filenames = [
-  'file_1',
-  'file_2'
-]
 
 paths = [
   path_to_data_directory
@@ -37,24 +22,6 @@ filenames.each do |filename|
   end
   paths.append(path)
 end
-
-# include_path, include_metadata
-includes = [
-  [true, true],
-  [true, false]
-]
-
-algorithms = [
-  'md5',
-  'sha1'
-]
-
-other_group =
-  if node['platform_family'] == 'debian'
-    'ssh'
-  else
-    'sshd'
-  end
 
 # Test files themselves
 includes.each do |include|
