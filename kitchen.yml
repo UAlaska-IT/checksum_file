@@ -24,7 +24,6 @@ verifier:
 platforms:
   - name: ubuntu-18.04
   - name: ubuntu-16.04
-  - name: ubuntu-14.04
   - name: debian-9
   - name: debian-8
   - name: centos-7
@@ -54,7 +53,6 @@ suites:
     includes:
       - ubuntu-18.04
       - ubuntu-16.04
-      - ubuntu-14.04
       - debian-9
       - debian-8
   - name: rhel-based
