@@ -153,6 +153,33 @@ includes.each do |include|
       it { should_not exist }
     end
 
+    # Check directory modified time change
+    describe file File.join(path_to_test_directory, "#{base_name}_dir_mtime") do
+      it { should exist }
+      it { should be_file }
+      it { should be_mode 0o644 }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+    end
+
+    # Check directory permissions change
+    describe file File.join(path_to_test_directory, "#{base_name}_dir_mode") do
+      it { should exist }
+      it { should be_file }
+      it { should be_mode 0o644 }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+    end
+
+    # Check directory group change
+    describe file File.join(path_to_test_directory, "#{base_name}_dir_group") do
+      it { should exist }
+      it { should be_file }
+      it { should be_mode 0o644 }
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+    end
+
     # Check content change
     describe file File.join(path_to_test_directory, "#{base_name}_content") do
       it { should exist }
