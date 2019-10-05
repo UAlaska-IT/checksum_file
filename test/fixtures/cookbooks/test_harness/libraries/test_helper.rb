@@ -47,13 +47,9 @@ module ChecksumTest
     end
 
     def other_group
-      group =
-        if node['platform_family'] == 'debian'
-          'ssh'
-        else
-          'sshd'
-        end
-      return group
+      return 'ssh' if node['platform_family'] == 'debian'
+
+      'sshd'
     end
 
     def create_directory
