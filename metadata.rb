@@ -11,9 +11,9 @@ git_url = 'https://github.com/ualaska-it/checksum_file'
 source_url git_url if respond_to?(:source_url)
 issues_url "#{git_url}/issues" if respond_to?(:issues_url)
 
-version '1.0.2'
+version '1.0.3'
 
-supports 'ubuntu', '>= 14.0'
+supports 'ubuntu', '>= 16.0'
 supports 'debian', '>= 8.0'
 supports 'redhat', '>= 6.0'
 supports 'centos', '>= 6.0'

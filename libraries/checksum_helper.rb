@@ -34,15 +34,15 @@ module ChecksumFile
       return tar_path
     end
 
-    def checksum_command(checksum_algorithm)
-      algorithm = checksum_algorithm.downcase
+    def checksum_command(new_resource)
+      algorithm = new_resource.checksum_algorithm.downcase
       return 'md5sum' if algorithm == 'md5'
 
       return 'sha1sum' if algorithm == 'sha1'
     end
 
-    def generate_checksum_and_path(path_to_file, checksum_algorithm)
-      command = "#{checksum_command(checksum_algorithm)} #{path_to_file}"
+    def generate_checksum_and_path(path_to_file, new_resource)
+      command = "#{checksum_command(new_resource)} #{path_to_file}"
       checksum_and_path = bash_out(command)
       return checksum_and_path
     end
@@ -52,14 +52,14 @@ module ChecksumFile
       return splits[0].strip
     end
 
-    def generate_checksum_record(source_path, checksum_algorithm)
+    def generate_checksum_record(source_path, new_resource)
       path_to_file =
         if File.directory?(source_path)
           generate_tar_file(source_path)
         else
           source_path
         end
-      checksum_and_path = generate_checksum_and_path(path_to_file, checksum_algorithm)
+      checksum_and_path = generate_checksum_and_path(path_to_file, new_resource)
       return "#{separate_checksum_from_path(checksum_and_path)}}\n"
     end
 
@@ -69,11 +69,11 @@ module ChecksumFile
       return stats
     end
 
-    def generate_file_record(path_to_file, include_path, include_metadata, checksum_algorithm)
-      source_path = File.realpath(path_to_file)
-      record = generate_checksum_record(source_path, checksum_algorithm)
-      record += "#{source_path}\n" if include_path
-      record += "#{generate_file_stat(source_path)}\n" if include_metadata
+    def generate_file_record(new_resource)
+      source_path = File.realpath(new_resource.source_path)
+      record = generate_checksum_record(source_path, new_resource)
+      record += "#{source_path}\n" if new_resource.include_path
+      record += "#{generate_file_stat(source_path)}\n" if new_resource.include_metadata
       return record
     end
 
@@ -87,12 +87,7 @@ module ChecksumFile
     end
 
     def save_checksum_file(new_resource)
-      file_content = generate_file_record(
-        new_resource.source_path,
-        new_resource.include_path,
-        new_resource.include_metadata,
-        new_resource.checksum_algorithm
-      )
+      file_content = generate_file_record(new_resource)
       save_record(file_content, new_resource)
     end
   end

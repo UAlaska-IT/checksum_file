@@ -1,5 +1,9 @@
 # Changelog for Checksum File Cookbook
 
+## 1.0.3
+
+* Added tests for directory metadata
+
 ## 1.0.2
 
 * Eliminated Codecov integration

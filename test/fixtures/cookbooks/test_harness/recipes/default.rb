@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-path_to_data_directory = '/tmp/checksum_data'
-path_to_checksum_directory = '/tmp/checksum_checksum'
-path_to_test_directory = '/tmp/checksum_test'
-
-directories = [
-  'data',
-  'checksum',
-  'test'
-]
-
 directories.each do |dir|
   # Make test environment idempotent
   bash "Delete #{dir} directory" do
@@ -21,40 +11,16 @@ directories.each do |dir|
   end
 end
 
-filenames = [
-  'file_1',
-  'file_2'
-]
-
 paths = [
   path_to_data_directory
 ]
 
 filenames.each do |filename|
   path = File.join(path_to_data_directory, filename)
-  file path do
-    content filename
-  end
   paths.append(path)
 end
 
-# include_path, include_metadata
-includes = [
-  [true, true],
-  [true, false]
-]
-
-algorithms = [
-  'md5',
-  'sha1'
-]
-
-other_group =
-  if node['platform_family'] == 'debian'
-    'ssh'
-  else
-    'sshd'
-  end
+create_directory
 
 # Test files themselves
 includes.each do |include|
@@ -209,16 +175,7 @@ includes.each do |include|
     base_name = "#{include[0]}_#{include[1]}_#{algorithm}"
     checksum_path = File.join(path_to_checksum_directory, base_name)
 
-    filenames.each do |filename|
-      path = File.join(path_to_data_directory, filename)
-      bash "Delete #{base_name} #{filename}" do
-        code "rm #{path}"
-      end
-      file "#{base_name} #{filename}" do
-        path path
-        content filename
-      end
-    end
+    create_directory
 
     # Check first creation
     checksum_file "#{base_name}_create" do
@@ -256,7 +213,77 @@ includes.each do |include|
       subscribes :create, "checksum_file[#{base_name}_none]", :immediate
     end
 
+    # Check directory modified time change
+    reset_directory(path_to_data_directory, checksum_path, include, algorithm)
+    bash "#{path_to_data_directory}_dir_mtime" do
+      code "sleep 1 && touch #{path_to_data_directory}"
+    end
+
+    checksum_file "#{base_name}_dir_mtime" do
+      source_path path_to_data_directory
+      target_path checksum_path
+      include_path include[0]
+      include_metadata include[1]
+      checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
+    end
+
+    file File.join(path_to_test_directory, "#{base_name}_dir_mtime") do
+      content 'Just a check'
+      action :nothing
+      subscribes :create, "checksum_file[#{base_name}_dir_mtime]", :immediate
+    end
+
+    # Check directory permissions change
+    reset_directory(path_to_data_directory, checksum_path, include, algorithm)
+    bash "#{path_to_data_directory}_dir_mode" do
+      code "chmod 701 #{path_to_data_directory}"
+    end
+
+    checksum_file "#{base_name}_dir_mode" do
+      source_path path_to_data_directory
+      target_path checksum_path
+      include_path include[0]
+      include_metadata include[1]
+      checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
+    end
+
+    file File.join(path_to_test_directory, "#{base_name}_dir_mode") do
+      content 'Just a check'
+      action :nothing
+      subscribes :create, "checksum_file[#{base_name}_dir_mode]", :immediate
+    end
+
+    # Check directory group change
+    reset_directory(path_to_data_directory, checksum_path, include, algorithm)
+    bash "#{path_to_data_directory}_dir_group" do
+      code "chgrp #{other_group} #{path_to_data_directory}"
+    end
+
+    checksum_file "#{base_name}_dir_group" do
+      source_path path_to_data_directory
+      target_path checksum_path
+      include_path include[0]
+      include_metadata include[1]
+      checksum_algorithm algorithm
+      owner 'bud'
+      group 'bud'
+      mode 0o701
+    end
+
+    file File.join(path_to_test_directory, "#{base_name}_dir_group") do
+      content 'Just a check'
+      action :nothing
+      subscribes :create, "checksum_file[#{base_name}_dir_group]", :immediate
+    end
+
     # Check content change
+    reset_directory(path_to_data_directory, checksum_path, include, algorithm)
     filenames.each do |filename|
       file "#{base_name}_#{filename}" do
         path File.join(path_to_data_directory, filename)
@@ -282,6 +309,7 @@ includes.each do |include|
     end
 
     # Check modified time change
+    reset_directory(path_to_data_directory, checksum_path, include, algorithm)
     filenames.each do |filename|
       bash "#{base_name}_mtime" do
         code "sleep 1 && touch #{File.join(path_to_data_directory, filename)}"
@@ -306,6 +334,7 @@ includes.each do |include|
     end
 
     # Check permissions change
+    reset_directory(path_to_data_directory, checksum_path, include, algorithm)
     filenames.each do |filename|
       bash "#{base_name}_mode" do
         code "chmod 701 #{File.join(path_to_data_directory, filename)}"
@@ -330,6 +359,7 @@ includes.each do |include|
     end
 
     # Check group change
+    reset_directory(path_to_data_directory, checksum_path, include, algorithm)
     filenames.each do |filename|
       bash "#{base_name}_group" do
         code "chgrp #{other_group} #{File.join(path_to_data_directory, filename)}"
