@@ -2,6 +2,7 @@
 
 resource_name :checksum_file
 provides :checksum_file
+unified_mode true
 
 default_action :save
 

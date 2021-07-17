@@ -12,7 +12,7 @@ directories.each do |dir|
 end
 
 paths = [
-  path_to_data_directory
+  path_to_data_directory,
 ]
 
 filenames.each do |filename|
@@ -81,9 +81,13 @@ includes.each do |include|
         subscribes :create, "checksum_file[#{base_name}_content]", :immediate
       end
 
+      chef_sleep "#{base_name}_mtime" do
+        seconds 1
+      end
+
       # Check modified time change
       bash "#{base_name}_mtime" do
-        code "sleep 1 && touch #{path}"
+        code "touch #{path}"
       end
 
       checksum_file "#{base_name}_mtime" do
@@ -186,7 +190,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_create") do
@@ -204,7 +208,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_none") do
@@ -215,8 +219,11 @@ includes.each do |include|
 
     # Check directory modified time change
     reset_directory(path_to_data_directory, checksum_path, include, algorithm)
+    chef_sleep "#{path_to_data_directory}_dir_mtime" do
+      seconds 1
+    end
     bash "#{path_to_data_directory}_dir_mtime" do
-      code "sleep 1 && touch #{path_to_data_directory}"
+      code "touch #{path_to_data_directory}"
     end
 
     checksum_file "#{base_name}_dir_mtime" do
@@ -227,7 +234,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_dir_mtime") do
@@ -250,7 +257,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_dir_mode") do
@@ -273,7 +280,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_dir_group") do
@@ -299,7 +306,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_content") do
@@ -311,8 +318,11 @@ includes.each do |include|
     # Check modified time change
     reset_directory(path_to_data_directory, checksum_path, include, algorithm)
     filenames.each do |filename|
+      chef_sleep "#{base_name}_mtime" do
+        seconds 1
+      end
       bash "#{base_name}_mtime" do
-        code "sleep 1 && touch #{File.join(path_to_data_directory, filename)}"
+        code "touch #{File.join(path_to_data_directory, filename)}"
       end
     end
 
@@ -324,7 +334,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_mtime") do
@@ -349,7 +359,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_mode") do
@@ -374,7 +384,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_group") do

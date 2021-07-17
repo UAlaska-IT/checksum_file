@@ -1,5 +1,9 @@
 # Changelog for Checksum File Cookbook
 
+## 1.0.4
+
+* Fix deprecation warnings in Chef 17
+
 ## 1.0.3
 
 * Added tests for directory metadata

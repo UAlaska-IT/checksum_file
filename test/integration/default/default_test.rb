@@ -6,11 +6,11 @@ path_to_test_directory = '/tmp/checksum_test'
 
 filenames = [
   'file_1',
-  'file_2'
+  'file_2',
 ]
 
 paths = [
-  path_to_data_directory
+  path_to_data_directory,
 ]
 
 filenames.each do |filename|
@@ -27,12 +27,12 @@ end
 # include_path, include_metadata
 includes = [
   [true, true],
-  [true, false]
+  [true, false],
 ]
 
 algorithms = [
   'md5',
-  'sha1'
+  'sha1',
 ]
 
 include_meta_regex = /(?:(?:(?:true|false)_true)|checksum_data)/
