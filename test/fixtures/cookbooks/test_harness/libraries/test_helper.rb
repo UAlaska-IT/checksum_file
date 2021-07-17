@@ -20,14 +20,14 @@ module ChecksumTest
       return [
         'data',
         'checksum',
-        'test'
+        'test',
       ]
     end
 
     def filenames
       return [
         'file_1',
-        'file_2'
+        'file_2',
       ]
     end
 
@@ -35,14 +35,14 @@ module ChecksumTest
     def includes
       return [
         [true, true],
-        [true, false]
+        [true, false],
       ]
     end
 
     def algorithms
       return [
         'md5',
-        'sha1'
+        'sha1',
       ]
     end
 
@@ -78,6 +78,5 @@ module ChecksumTest
   end
 end
 
-Chef::Provider.include(ChecksumTest::Helper)
-Chef::Recipe.include(ChecksumTest::Helper)
+Chef::DSL::Recipe.include(ChecksumTest::Helper)
 Chef::Resource.include(ChecksumTest::Helper)

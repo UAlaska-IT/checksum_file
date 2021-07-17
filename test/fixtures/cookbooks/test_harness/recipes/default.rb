@@ -12,7 +12,7 @@ directories.each do |dir|
 end
 
 paths = [
-  path_to_data_directory
+  path_to_data_directory,
 ]
 
 filenames.each do |filename|
@@ -186,7 +186,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_create") do
@@ -204,7 +204,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_none") do
@@ -227,7 +227,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_dir_mtime") do
@@ -250,7 +250,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_dir_mode") do
@@ -273,7 +273,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_dir_group") do
@@ -299,7 +299,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_content") do
@@ -324,7 +324,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_mtime") do
@@ -349,7 +349,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_mode") do
@@ -374,7 +374,7 @@ includes.each do |include|
       checksum_algorithm algorithm
       owner 'bud'
       group 'bud'
-      mode 0o701
+      mode '701'
     end
 
     file File.join(path_to_test_directory, "#{base_name}_group") do
